@@ -7829,6 +7829,58 @@ static PyObject* GemRB_ExecuteString(PyObject* /*self*/, PyObject* args)
 	Py_RETURN_NONE;
 }
 
+PyDoc_STRVAR(GemRB_Eval__doc,
+	     "===== Eval =====\n\
+\n\
+**Prototype:** GemRB.Eval (String[, PortraitIndex])\n\
+\n\
+**Description:** Executes an in-game script action. If a valid PortraitIndex \n\
+(greater than or equal to 0) is specified, the actor in PartySlot[PortraitIndex + 1] \n\
+is used as the script context. If no valid actor is found, the scriptable \n\
+(actor, container, door, etc.) currently under the cursor (if available) becomes the \n\
+script context. If neither of these conditions provides a valid object, the current \n\
+area script is used as the script context instead.\n\
+\n\
+**Parameters:**\n\
+  * String        - a gamescript action\n\
+  * PortraitIndex - the portrait index of a party member\n\
+\n\
+**Return value:** N/A\n\
+\n\
+**Examples:**\n\
+\n\
+    GemRB.Eval('Attack(NearestEnemyOf(Myself))')\n\
+\n\
+The above example will force the actor under the cursor to attack an enemy, issuing the command as it would come from the actor's script. The current gametype must support the scripting action.\n\
+\n\
+\n\
+    GemRB.Eval('Attack(NearestEnemyOf(Myself))', 0)\n\
+\n\
+The above example will force PartySlot1 to attack an enemy, as the example will run in that actor's script context.\n\
+\n\
+**See also:** [Eval](Eval.md), gamescripts\n\
+");
+
+static PyObject* GemRB_Eval(PyObject* /*self*/, PyObject* args)
+{
+	const char* String;
+	int PortraitIndex = -1; // 0 = PlayerSlot1
+
+	PARSE_ARGS(args, "s|i", &String, &PortraitIndex);
+	GET_GAME()
+	GET_GAMECONTROL()
+	GET_MAP()
+
+	Scriptable* scriptable = PortraitIndex >= 0 ? game->GetPCPartySlot(PortraitIndex) : gc->GetHoverObject();
+
+	if (scriptable == nullptr) {
+		scriptable = map;
+	}
+
+	GameScript::ExecuteString(scriptable, String); // Adds action to the front of the action queue; EEs add to the back
+	Py_RETURN_NONE;
+}
+
 PyDoc_STRVAR(GemRB_EvaluateString__doc,
 	     "===== EvaluateString =====\n\
 \n\
@@ -12609,6 +12661,7 @@ static PyMethodDef GemRBMethods[] = {
 	METHOD(EndCutSceneMode, METH_NOARGS),
 	METHOD(EnterGame, METH_NOARGS),
 	METHOD(EnterStore, METH_VARARGS),
+	METHOD(Eval, METH_VARARGS),
 	METHOD(EvaluateString, METH_VARARGS),
 	METHOD(ExecuteString, METH_VARARGS),
 	METHOD(ExploreArea, METH_VARARGS),
