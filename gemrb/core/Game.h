@@ -316,6 +316,8 @@ public:
 	int FindPlayer(unsigned int partyID) const;
 	/** Returns actor by slot */
 	Actor* GetPC(size_t slot, bool onlyAlive) const;
+	/** Returns actor by party slot (portrait order) */
+	Actor* GetPCPartySlot(size_t slot) const;
 	/** Finds an actor in party by party ID, returns Actor, if not there, returns NULL*/
 	Actor* FindPC(unsigned int partyID) const;
 	Actor* FindNPC(unsigned int partyID) const;

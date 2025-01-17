@@ -262,6 +262,12 @@ Actor* Game::GetPC(size_t slot, bool onlyAlive) const
 	return PCs[slot];
 }
 
+Actor* Game::GetPCPartySlot(size_t partySlot) const
+{
+	const int32_t slot = core->GetDictionary().Get(fmt::format("portrait{}", partySlot), -1);
+	return slot >= 1 ? FindPC(slot) : nullptr;
+}
+
 int Game::InStore(const Actor* pc) const
 {
 	for (unsigned int i = 0; i < NPCs.size(); i++) {
