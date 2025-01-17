@@ -139,6 +139,8 @@ public: // Public attributes
 	ieDword ControlID = 0;
 	/** Type of control */
 	ieByte ControlType = IE_GUI_INVALID;
+	/** Controls with the same drag group can complete drag events with each other */
+	std::string DragGroup;
 
 	static tick_t ActionRepeatDelay;
 

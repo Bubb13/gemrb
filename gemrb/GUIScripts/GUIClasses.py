@@ -260,6 +260,7 @@ class GControl(GView):
 		'SetAction': _GemRB.Control_SetAction,
 		'SetActionInterval': _GemRB.Control_SetActionInterval,
 		'SetColor': _GemRB.Control_SetColor,
+		'SetDragGroup': _GemRB.Control_SetDragGroup,
 		'SetFont': _GemRB.Control_SetFont,
 		'SetStatus': _GemRB.Control_SetStatus,
 		'SetText': _GemRB.Control_SetText,

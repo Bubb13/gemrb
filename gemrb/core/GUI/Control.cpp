@@ -268,8 +268,17 @@ bool Control::AcceptsDragOperation(const DragOp& dop) const
 	const ControlDragOp* cdop = dynamic_cast<const ControlDragOp*>(&dop);
 	if (cdop) {
 		assert(cdop->dragView != this);
-		// if 2 controls share the same VarName we assume they are swappable...
-		return (VarName == cdop->Source()->VarName);
+
+		const Control& source = *cdop->Source();
+		const std::string& sourceDragGroup = source.DragGroup;
+
+		if (!DragGroup.empty() || !sourceDragGroup.empty()) {
+			// if either control has defined a DragGroup, check them...
+			return DragGroup == sourceDragGroup;
+		} else {
+			// otherwise, if 2 controls share the same VarName we assume they are swappable...
+			return VarName == source.VarName;
+		}
 	}
 
 	return View::AcceptsDragOperation(dop);

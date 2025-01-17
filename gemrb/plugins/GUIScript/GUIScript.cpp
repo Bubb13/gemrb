@@ -1262,6 +1262,31 @@ static PyObject* GemRB_Control_SetColor(PyObject* self, PyObject* args)
 	Py_RETURN_NONE;
 }
 
+PyDoc_STRVAR(GemRB_Control_SetDragGroup__doc,
+	     "===== Control_SetDragGroup =====\n\
+\n\
+**Metaclass Prototype:** SetDragGroup (DragGroup)\n\
+\n\
+**Description:** Sets the drag group of the control. Controls with the same drag group can complete drag events with each other.\n\
+\n\
+**Parameters:** \n\
+  * DragGroup - a string denoting the new drag group.\n\
+\n\
+**Return value:** N/A");
+
+static PyObject* GemRB_Control_SetDragGroup(PyObject* self, PyObject* args)
+{
+	const char* dragGroup;
+	PARSE_ARGS(args, "Os", &self, &dragGroup);
+
+	Control* const ctrl = GetView<Control>(self);
+	assert(ctrl);
+
+	ctrl->DragGroup = dragGroup;
+
+	Py_RETURN_NONE;
+}
+
 PyDoc_STRVAR(GemRB_Control_QueryText__doc,
 	     "===== Control_QueryText =====\n\
  \n\
@@ -12791,6 +12816,7 @@ static PyMethodDef GemRBInternalMethods[] = {
 	METHOD(Control_SetAction, METH_VARARGS),
 	METHOD(Control_SetActionInterval, METH_VARARGS),
 	METHOD(Control_SetColor, METH_VARARGS),
+	METHOD(Control_SetDragGroup, METH_VARARGS),
 	METHOD(Control_SetFont, METH_VARARGS),
 	METHOD(Control_SetStatus, METH_VARARGS),
 	METHOD(Control_SetText, METH_VARARGS),
