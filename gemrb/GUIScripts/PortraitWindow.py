@@ -104,7 +104,7 @@ def GetPortraitButtons (Window, ExtraSlots=0, Mode="vertical"):
 	for i in range(min(oldSlotCount, MAX_PARTY_SIZE + ExtraSlots)): # the default chu/game limit or less
 		btn = Window.GetControl(i)
 		btn.SetHotKey(chr(ord('1') + i), 0, True)
-		btn.SetVarAssoc("portrait", i + 1)
+		btn.SetVarAssoc(f"portrait{i}", i + 1)
 		list.append(btn)
 
 	# nothing left to do
@@ -173,7 +173,7 @@ def GetPortraitButtons (Window, ExtraSlots=0, Mode="vertical"):
 			# vertical
 			button = Window.CreateButton (nextID, xOffset, i*buttonHeight+yOffset+i*2*scale, buttonWidth, buttonHeight)
 
-		button.SetVarAssoc("portrait", i + 1)
+		button.SetVarAssoc(f"portrait{i}", i + 1)
 		button.SetSprites ("GUIRSPOR", 0, 0, 1, 0, 0)
 		SetupButtonBorders (button)
 		button.SetFont (StatesFont)
@@ -183,6 +183,7 @@ def GetPortraitButtons (Window, ExtraSlots=0, Mode="vertical"):
 		button.OnPress (GUICommonWindows.PortraitButtonOnPress)
 		button.OnShiftPress (GUICommonWindows.PortraitButtonOnShiftPress)
 		button.SetAction (GUICommonWindows.PortraitButtonOnShiftPress, IE_ACT_MOUSE_PRESS, GEM_MB_ACTION, GEM_MOD_CTRL, 1)
+		button.SetDragGroup ("portrait")
 		button.SetAction (GUICommonWindows.ButtonDragSourceHandler, IE_ACT_DRAG_DROP_SRC)
 		button.SetAction (GUICommonWindows.ButtonDragDestHandler, IE_ACT_DRAG_DROP_DST)
 
@@ -292,10 +293,10 @@ def OpenPortraitWindow (needcontrols=0, pos=WINDOW_RIGHT|WINDOW_VCENTER):
 			Button.OnPress (GUICommonWindows.RestPress)
 
 	PortraitButtons = GetPortraitButtons (Window)
-	for Button in PortraitButtons:
+	for i, Button in enumerate(PortraitButtons):
 		pcID = Button.Value
 
-		Button.SetVarAssoc("portrait", pcID)
+		Button.SetVarAssoc(f"portrait{i}", pcID)
 		Button.SetHotKey(chr(ord('0') + pcID), 0, True)
 		Button.SetFont (StatesFont)
 		AddStatusFlagLabel (Button, pcID)
@@ -308,6 +309,7 @@ def OpenPortraitWindow (needcontrols=0, pos=WINDOW_RIGHT|WINDOW_VCENTER):
 		Button.OnPress (GUICommonWindows.PortraitButtonOnPress)
 		Button.OnShiftPress (GUICommonWindows.PortraitButtonOnShiftPress)
 		Button.SetAction (GUICommonWindows.PortraitButtonOnShiftPress, IE_ACT_MOUSE_PRESS, GEM_MB_ACTION, GEM_MOD_CTRL, 1)
+		Button.SetDragGroup ("portrait")
 		Button.SetAction (GUICommonWindows.ButtonDragSourceHandler, IE_ACT_DRAG_DROP_SRC)
 		Button.SetAction (GUICommonWindows.ButtonDragDestHandler, IE_ACT_DRAG_DROP_DST)
 		Button.SetAction(lambda btn: GemRB.GameControlLocateActor(btn.Value), IE_ACT_MOUSE_ENTER);

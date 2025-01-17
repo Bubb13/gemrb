@@ -585,11 +585,11 @@ def ButtonDragDestHandler (btn):
 	pcID = btn.Value
 	# So far this is only used for portrait buttons
 	if DragButton: # DragButton will be none for item drags instantiated by clicking (not dragging) an inventory item
-		if DragButton.VarName == "portrait" and btn.VarName == "portrait":
+		if DragButton.VarName.startswith("portrait") and btn.VarName.startswith("portrait"):
 			GemRB.GameSwapPCs (DragButton.Value, pcID)
 			
 	else: # TODO: something like this: DragButton.VarName.startswith("slot")
-		if btn.VarName == "portrait":
+		if btn.VarName.startswith("portrait"):
 			InventoryCommon.OnDropItemToPC(pcID)
 		# TODO: handle inventory/ground slots
 		

@@ -28,7 +28,7 @@ def GetPortraitButtons(Window, *args):
 	list = []
 	for i in range(6):
 		btn = Window.GetControl(i)
-		btn.SetVarAssoc("portrait", i + 1)
+		btn.SetVarAssoc(f"portrait{i}", i + 1)
 		list.append(btn)
 	return list
 
@@ -62,6 +62,7 @@ def OpenPortraitWindow (pos=WINDOW_RIGHT|WINDOW_VCENTER):
 		Button.OnRightPress (GUICommonWindows.OpenInventoryWindowClick)
 		Button.OnPress (GUICommonWindows.PortraitButtonOnPress)
 		Button.SetAction (GUICommonWindows.PortraitButtonOnShiftPress, IE_ACT_MOUSE_PRESS, GEM_MB_ACTION, GEM_MOD_CTRL, 1)
+		Button.SetDragGroup ("portrait")
 		Button.SetAction (GUICommonWindows.ButtonDragSourceHandler, IE_ACT_DRAG_DROP_SRC)
 		Button.SetAction (GUICommonWindows.ButtonDragDestHandler, IE_ACT_DRAG_DROP_DST)
 		Button.SetAction(BindControlCallbackParams(GemRB.GameControlLocateActor, pcID), IE_ACT_MOUSE_ENTER)
