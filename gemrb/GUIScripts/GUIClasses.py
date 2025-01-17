@@ -256,15 +256,15 @@ class GWindow(GView, Scrollable):
 
 class GControl(GView):
 	methods = {
-		'SetVarAssoc': _GemRB.Control_SetVarAssoc,
 		'QueryText': _GemRB.Control_QueryText,
-		'SetText': _GemRB.Control_SetText,
 		'SetAction': _GemRB.Control_SetAction,
 		'SetActionInterval': _GemRB.Control_SetActionInterval,
 		'SetColor': _GemRB.Control_SetColor,
 		'SetFont': _GemRB.Control_SetFont,
 		'SetStatus': _GemRB.Control_SetStatus,
-		'SetValue': _GemRB.Control_SetValue
+		'SetText': _GemRB.Control_SetText,
+		'SetValue': _GemRB.Control_SetValue,
+		'SetVarAssoc': _GemRB.Control_SetVarAssoc,
 	}
 
 	__slots__ = ['ControlID', 'VarName', 'Value']
